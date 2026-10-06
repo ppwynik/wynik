@@ -1,380 +1,955 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Licznik</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>Praca</title>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #111827;
-      color: #f9fafb;
-      font-family: Arial, sans-serif;
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #111827;
+    color: white;
+
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: min(700px, 92%);
+
+    background: #1f2937;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* DATA */
+
+.inputs {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #9ca3af;
+
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #374151;
+
+    border-radius: 10px;
+
+    background: #111827;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+/* STATYSTYKI */
+
+.stats {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.stat {
+    background: #111827;
+
+    padding: 15px 10px;
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.stat-title {
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+}
+
+.stat-value {
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+/* COUNTER */
+
+.counter {
+    text-align: center;
+
+    font-size: 80px;
+
+    font-weight: bold;
+
+    margin-top: 30px;
+}
+
+/* WYNIK */
+
+.result {
+    text-align: center;
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+/* CZAS OD SPACJI */
+
+.last-interval {
+    text-align: center;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    margin-top: 20px;
+}
+
+.last-label {
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+/* ŚREDNIA */
+
+.average {
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 14px;
+
+    margin-top: 15px;
+
+    margin-bottom: 25px;
+}
+
+.average strong {
+    color: white;
+}
+
+/* PRZYCISKI */
+
+.buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+}
+
+button {
+    min-width: 120px;
+
+    padding: 14px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.minus {
+    background: #dc2626;
+}
+
+.minus:hover {
+    background: #b91c1c;
+}
+
+.plus {
+    background: #16a34a;
+}
+
+.plus:hover {
+    background: #15803d;
+}
+
+/* RESET */
+
+.reset {
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 15px;
+}
+
+.reset button {
+    background: #3b82f6;
+
+    min-width: 150px;
+
+    font-size: 16px;
+}
+
+.reset button:hover {
+    background: #2563eb;
+}
+
+/* INFORMACJA */
+
+.hint {
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-top: 15px;
+}
+
+/* TELEFON */
+
+@media (max-width: 500px) {
+
+    .inputs,
+    .stats {
+        grid-template-columns: 1fr;
     }
 
     .container {
-      width: min(600px, 92%);
-      background: #1f2937;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    }
-
-    h1 {
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 25px;
-    }
-
-    .inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      color: #9ca3af;
-      font-size: 14px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #374151;
-      border-radius: 10px;
-      background: #111827;
-      color: white;
-      font-size: 17px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .stat {
-      padding: 15px 10px;
-      background: #111827;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .stat-title {
-      color: #9ca3af;
-      font-size: 13px;
-      margin-bottom: 7px;
-    }
-
-    .stat-value {
-      font-size: 22px;
-      font-weight: bold;
+        padding: 20px;
     }
 
     .counter {
-      text-align: center;
-      font-size: 80px;
-      font-weight: bold;
-      margin: 30px 0 10px;
+        font-size: 60px;
     }
 
     .result {
-      text-align: center;
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 25px;
+        font-size: 28px;
     }
 
-    .buttons {
-      display: flex;
-      justify-content: center;
+    .buttons button {
+        min-width: 100px;
     }
+}
 
-    button {
-      padding: 12px 22px;
-      border: none;
-      border-radius: 10px;
-      background: #3b82f6;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #2563eb;
-    }
-
-    .hint {
-      text-align: center;
-      color: #9ca3af;
-      font-size: 13px;
-      margin-top: 15px;
-    }
-
-    @media (max-width: 500px) {
-      .inputs,
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .counter {
-        font-size: 60px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <h1>Wynik</h1>
+    
+
+
+    <!-- DATA I GODZINA -->
 
     <div class="inputs">
 
-      <div>
-        <label for="startDate">Data</label>
-        <input type="date" id="startDate">
-      </div>
+        <div>
 
-      <div>
-        <label for="startTime">Godzina</label>
-        <input type="time" id="startTime" step="1">
-      </div>
+            <label for="startDate">
+                Data
+            </label>
+
+            <input
+                type="date"
+                id="startDate"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label for="startTime">
+                Godzina
+            </label>
+
+            <input
+                type="time"
+                id="startTime"
+            >
+
+        </div>
 
     </div>
+
+
+    <!-- STATYSTYKI -->
 
     <div class="stats">
 
-      <div class="stat">
-        <div class="stat-title">Czas Pracy</div>
-        <div class="stat-value" id="elapsed">0,00 h</div>
-      </div>
+        <div class="stat">
 
-      <div class="stat">
-        <div class="stat-title">Licznik</div>
-        <div class="stat-value" id="counterSmall">0</div>
-      </div>
+            <div class="stat-title">
+                Czas Pracy
+            </div>
 
-      <div class="stat">
-        <div class="stat-title">Wynik</div>
-        <div class="stat-value" id="rateSmall">0,00/h</div>
-      </div>
+            <div
+                class="stat-value"
+                id="elapsed"
+            >
+                0,00 h
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Licznik
+            </div>
+
+            <div
+                class="stat-value"
+                id="counterSmall"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Wynik
+            </div>
+
+            <div
+                class="stat-value"
+                id="rateSmall"
+            >
+                0,00/h
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="counter" id="counter">
-      0
+
+    <!-- DUŻY COUNTER -->
+
+    <div
+        class="counter"
+        id="counter"
+    >
+        0
     </div>
 
-    <div class="result" id="result">
-      0,00 / h
+
+    <!-- WYNIK -->
+
+    <div
+        class="result"
+        id="result"
+    >
+        0,00 / h
     </div>
+
+
+    <!-- CZAS OD OSTATNIEJ SPACJI -->
+
+    <div
+        class="last-interval"
+        id="lastInterval"
+    >
+        —
+    </div>
+
+    <div class="last-label">
+        
+    </div>
+
+
+    <!-- ŚREDNI CZAS -->
+
+    <div class="average">
+
+        Średnia
+
+        <strong id="averageInterval">
+            —
+        </strong>
+
+    </div>
+
+
+    <!-- PRZYCISKI -->
 
     <div class="buttons">
-      <button id="resetButton">
-        
-      </button>
+
+        <button
+            class="minus"
+            id="minusButton"
+        >
+            −1
+        </button>
+
+
+        <button
+            class="plus"
+            id="plusButton"
+        >
+            +1
+        </button>
+
     </div>
 
-  </div>
 
-  <script>
+    <!-- RESET -->
 
-    const startDate = document.getElementById("startDate");
-    const startTime = document.getElementById("startTime");
+    <div class="reset">
 
-    const counterElement = document.getElementById("counter");
-    const counterSmall = document.getElementById("counterSmall");
+        <button id="resetButton">
+            Reset
+        </button>
 
-    const elapsedElement = document.getElementById("elapsed");
-
-    const resultElement = document.getElementById("result");
-    const rateSmall = document.getElementById("rateSmall");
-
-    const resetButton = document.getElementById("resetButton");
-
-    let counter = 0;
+    </div>
 
 
-    // Ustawienie dzisiejszej daty
-    // oraz domyślnej godziny 18:30
-    function setDefaultDateTime() {
+    <div class="hint">
+        Naciśnij <strong>SPACJĘ</strong>,
+        +1
+    </div>
 
-      const now = new Date();
+</div>
 
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, "0");
-      const day = String(now.getDate()).padStart(2, "0");
 
-      startDate.value = `${year}-${month}-${day}`;
+<script>
 
-      // Domyślna godzina
-      startTime.value = "18:30";
+/* =========================================
+   ELEMENTY
+========================================= */
+
+const startDate = document.getElementById("startDate");
+const startTime = document.getElementById("startTime");
+
+const counterElement = document.getElementById("counter");
+const counterSmall = document.getElementById("counterSmall");
+
+const elapsedElement = document.getElementById("elapsed");
+
+const resultElement = document.getElementById("result");
+const rateSmall = document.getElementById("rateSmall");
+
+const lastIntervalElement =
+    document.getElementById("lastInterval");
+
+const averageIntervalElement =
+    document.getElementById("averageInterval");
+
+const plusButton =
+    document.getElementById("plusButton");
+
+const minusButton =
+    document.getElementById("minusButton");
+
+const resetButton =
+    document.getElementById("resetButton");
+
+
+/* =========================================
+   ZMIENNE
+========================================= */
+
+let counter = 0;
+
+let lastPressTime = null;
+
+let totalInterval = 0;
+
+let intervalCount = 0;
+
+
+/* =========================================
+   USTAWIENIE DZISIEJSZEJ DATY
+   I GODZINY 18:30
+========================================= */
+
+function setDefaultDateTime() {
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+
+    const month = String(
+        now.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        now.getDate()
+    ).padStart(2, "0");
+
+
+    startDate.value =
+        year + "-" + month + "-" + day;
+
+    startTime.value = "18:30";
+}
+
+
+/* =========================================
+   POBRANIE DATY STARTU
+========================================= */
+
+function getStartDate() {
+
+    if (
+        startDate.value === "" ||
+        startTime.value === ""
+    ) {
+        return null;
     }
 
 
-    // Pobiera wybraną datę i godzinę
-    function getStartDate() {
+    const parts =
+        startDate.value.split("-");
 
-      if (!startDate.value || !startTime.value) {
-        return null;
-      }
+    const time =
+        startTime.value.split(":");
 
-      const [year, month, day] =
-        startDate.value.split("-").map(Number);
 
-      const [hours, minutes, seconds] =
-        startTime.value.split(":").map(Number);
+    const year = Number(parts[0]);
 
-      return new Date(
+    const month = Number(parts[1]);
+
+    const day = Number(parts[2]);
+
+
+    const hours = Number(time[0]);
+
+    const minutes = Number(time[1]);
+
+
+    return new Date(
         year,
         month - 1,
         day,
         hours,
         minutes,
-        seconds || 0
-      );
+        0
+    );
+}
+
+
+/* =========================================
+   FORMAT CZASU
+========================================= */
+
+function formatInterval(ms) {
+
+    const seconds = ms / 1000;
+
+
+    if (seconds < 60) {
+
+        return (
+            seconds
+                .toFixed(1)
+                .replace(".", ",")
+            + " s"
+        );
     }
 
 
-    // Aktualizacja wszystkich wartości
-    function update() {
+    const minutes =
+        Math.floor(seconds / 60);
 
-      const start = getStartDate();
+    const remainingSeconds =
+        Math.floor(seconds % 60);
 
-      if (!start) {
+
+    return (
+        minutes +
+        " min " +
+        remainingSeconds +
+        " s"
+    );
+}
+
+
+/* =========================================
+   AKTUALIZACJA
+========================================= */
+
+function update() {
+
+    const start = getStartDate();
+
+
+    if (!start) {
         return;
-      }
+    }
 
-      let elapsedMilliseconds =
+
+    let elapsedMs =
         Date.now() - start.getTime();
 
-      // Jeżeli godzina jest jeszcze w przyszłości,
-      // pokazujemy 0 zamiast wartości ujemnej.
-      if (elapsedMilliseconds < 0) {
-        elapsedMilliseconds = 0;
-      }
 
-      // Zamiana czasu na godziny
-      const elapsedHours =
-        elapsedMilliseconds / 3600000;
-
-
-      // GŁÓWNY WZÓR:
-      //
-      // Counter / liczba godzin
-      //
-      // Przykład:
-      // Counter = 20
-      // Czas = 1,2 h
-      // 20 / 1,2 = 16,67 / h
-
-      let result = 0;
-
-      if (elapsedHours > 0) {
-        result = counter / elapsedHours;
-      }
-
-
-      // Wyświetlanie czasu
-      elapsedElement.textContent =
-        elapsedHours.toFixed(2).replace(".", ",") + " h";
-
-
-      // Wyświetlanie Counter
-      counterElement.textContent =
-        counter;
-
-      counterSmall.textContent =
-        counter;
-
-
-      // Wyświetlanie wyniku
-      rateSmall.textContent =
-        result.toFixed(2).replace(".", ",") + "/h";
-
-      resultElement.textContent =
-        result.toFixed(2).replace(".", ",") + " / h";
+    if (elapsedMs < 0) {
+        elapsedMs = 0;
     }
 
 
-    // Spacja zwiększa Counter
-    document.addEventListener("keydown", function(event) {
+    /* GODZINY */
 
-      // Nie reaguj na spację podczas wpisywania
-      // w pole daty/godziny
-      if (event.target.tagName === "INPUT") {
-        return;
-      }
+    const hours =
+        elapsedMs / 3600000;
 
-      if (event.code === "Space") {
 
-        event.preventDefault();
+    /* WYNIK */
 
-        counter++;
+    let result = 0;
+
+
+    if (hours > 0) {
+
+        result =
+            counter / hours;
+    }
+
+
+    /* MINĘŁO */
+
+    elapsedElement.textContent =
+        hours
+            .toFixed(2)
+            .replace(".", ",")
+        + " h";
+
+
+    /* COUNTER */
+
+    counterElement.textContent =
+        counter;
+
+    counterSmall.textContent =
+        counter;
+
+
+    /* WYNIK */
+
+    const resultText =
+        result
+            .toFixed(2)
+            .replace(".", ",");
+
+
+    resultElement.textContent =
+        resultText + " / h";
+
+    rateSmall.textContent =
+        resultText + "/h";
+
+
+    /* CZAS OD OSTATNIEJ SPACJI */
+
+    if (lastPressTime !== null) {
+
+        const time =
+            Date.now() - lastPressTime;
+
+
+        lastIntervalElement.textContent =
+            formatInterval(time);
+    }
+}
+
+
+/* =========================================
+   +1
+========================================= */
+
+function addOne() {
+
+    const now = Date.now();
+
+
+    /* JEŻELI TO NIE JEST PIERWSZE NACIŚNIĘCIE */
+
+    if (lastPressTime !== null) {
+
+        const interval =
+            now - lastPressTime;
+
+
+        totalInterval += interval;
+
+        intervalCount++;
+
+
+        const average =
+            totalInterval / intervalCount;
+
+
+        averageIntervalElement.textContent =
+            formatInterval(average);
+    }
+
+
+    /* ZAPIS CZASU */
+
+    lastPressTime = now;
+
+
+    /* ZWIĘKSZENIE */
+
+    counter++;
+
+
+    update();
+}
+
+
+/* =========================================
+   -1
+========================================= */
+
+function removeOne() {
+
+    if (counter > 0) {
+
+        counter--;
+    }
+
+
+    update();
+}
+
+
+/* =========================================
+   SPACJA
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.code === "Space") {
+
+            /*
+              Nie pozwalamy przeglądarce
+              przewijać strony.
+            */
+
+            event.preventDefault();
+
+
+            /*
+              Jeżeli użytkownik trzyma
+              spację, każde kolejne
+              zdarzenie nie zwiększa
+              licznika.
+            */
+
+            if (event.repeat) {
+                return;
+            }
+
+
+            addOne();
+        }
+    }
+);
+
+
+/* =========================================
+   +1 BUTTON
+========================================= */
+
+plusButton.addEventListener(
+    "click",
+    function() {
+
+        addOne();
+    }
+);
+
+
+/* =========================================
+   -1 BUTTON
+========================================= */
+
+minusButton.addEventListener(
+    "click",
+    function() {
+
+        removeOne();
+    }
+);
+
+
+/* =========================================
+   RESET
+========================================= */
+
+resetButton.addEventListener(
+    "click",
+    function() {
+
+        counter = 0;
+
+        lastPressTime = null;
+
+        totalInterval = 0;
+
+        intervalCount = 0;
+
+
+        lastIntervalElement.textContent =
+            "—";
+
+
+        averageIntervalElement.textContent =
+            "—";
+
 
         update();
-      }
-
-    });
-
-
-    // Reset Counter
-    resetButton.addEventListener("click", function() {
-
-      counter = 0;
-
-      update();
-
-    });
+    }
+);
 
 
-    // Zmiana daty resetuje Counter
-    startDate.addEventListener("change", function() {
+/* =========================================
+   ZMIANA DATY
+========================================= */
 
-      counter = 0;
+startDate.addEventListener(
+    "change",
+    function() {
 
-      update();
+        counter = 0;
 
-    });
+        lastPressTime = null;
 
+        totalInterval = 0;
 
-    // Zmiana godziny resetuje Counter
-    startTime.addEventListener("change", function() {
-
-      counter = 0;
-
-      update();
-
-    });
+        intervalCount = 0;
 
 
-    // Ustawienie dzisiejszej daty
-    // i godziny 18:30
-    setDefaultDateTime();
+        lastIntervalElement.textContent =
+            "—";
 
 
-    // Aktualizacja co 250 ms
-    setInterval(update, 250);
+        averageIntervalElement.textContent =
+            "—";
 
-    // Pierwsze obliczenie
-    update();
 
-  </script>
+        update();
+    }
+);
+
+
+/* =========================================
+   ZMIANA GODZINY
+========================================= */
+
+startTime.addEventListener(
+    "change",
+    function() {
+
+        counter = 0;
+
+        lastPressTime = null;
+
+        totalInterval = 0;
+
+        intervalCount = 0;
+
+
+        lastIntervalElement.textContent =
+            "—";
+
+
+        averageIntervalElement.textContent =
+            "—";
+
+
+        update();
+    }
+);
+
+
+/* =========================================
+   START STRONY
+========================================= */
+
+setDefaultDateTime();
+
+
+/*
+  Aktualizujemy stronę
+  10 razy na sekundę.
+*/
+
+setInterval(
+    update,
+    100
+);
+
+
+update();
+
+</script>
 
 </body>
 </html>
