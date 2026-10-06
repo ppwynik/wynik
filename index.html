@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Counter / godzina</title>
+  <title>Licznik</title>
 
   <style>
     * {
@@ -141,7 +141,7 @@
 
   <div class="container">
 
-    <h1>Norma</h1>
+    <h1>Wynik</h1>
 
     <div class="inputs">
 
@@ -160,7 +160,7 @@
     <div class="stats">
 
       <div class="stat">
-        <div class="stat-title">Czas pracy</div>
+        <div class="stat-title">Czas Pracy</div>
         <div class="stat-value" id="elapsed">0,00 h</div>
       </div>
 
@@ -186,10 +186,9 @@
 
     <div class="buttons">
       <button id="resetButton">
-        Reset counter
+        
       </button>
     </div>
-
 
   </div>
 
@@ -211,8 +210,9 @@
     let counter = 0;
 
 
-    // Ustawienie aktualnej daty i godziny
-    function setCurrentDateTime() {
+    // Ustawienie dzisiejszej daty
+    // oraz domyślnej godziny 18:30
+    function setDefaultDateTime() {
 
       const now = new Date();
 
@@ -220,12 +220,10 @@
       const month = String(now.getMonth() + 1).padStart(2, "0");
       const day = String(now.getDate()).padStart(2, "0");
 
-      const hours = String(now.getHours()).padStart(2, "0");
-      const minutes = String(now.getMinutes()).padStart(2, "0");
-      const seconds = String(now.getSeconds()).padStart(2, "0");
-
       startDate.value = `${year}-${month}-${day}`;
-      startTime.value = `${hours}:${minutes}:${seconds}`;
+
+      // Domyślna godzina
+      startTime.value = "18:30";
     }
 
 
@@ -265,7 +263,8 @@
       let elapsedMilliseconds =
         Date.now() - start.getTime();
 
-      // Nie pozwalamy na czas ujemny
+      // Jeżeli godzina jest jeszcze w przyszłości,
+      // pokazujemy 0 zamiast wartości ujemnej.
       if (elapsedMilliseconds < 0) {
         elapsedMilliseconds = 0;
       }
@@ -275,7 +274,15 @@
         elapsedMilliseconds / 3600000;
 
 
+      // GŁÓWNY WZÓR:
+      //
       // Counter / liczba godzin
+      //
+      // Przykład:
+      // Counter = 20
+      // Czas = 1,2 h
+      // 20 / 1,2 = 16,67 / h
+
       let result = 0;
 
       if (elapsedHours > 0) {
@@ -283,16 +290,20 @@
       }
 
 
-      // Wyświetlanie
+      // Wyświetlanie czasu
       elapsedElement.textContent =
         elapsedHours.toFixed(2).replace(".", ",") + " h";
 
+
+      // Wyświetlanie Counter
       counterElement.textContent =
         counter;
 
       counterSmall.textContent =
         counter;
 
+
+      // Wyświetlanie wyniku
       rateSmall.textContent =
         result.toFixed(2).replace(".", ",") + "/h";
 
@@ -304,10 +315,9 @@
     // Spacja zwiększa Counter
     document.addEventListener("keydown", function(event) {
 
-      // Nie reaguj na spację podczas wpisywania w pole
-      if (
-        event.target.tagName === "INPUT"
-      ) {
+      // Nie reaguj na spację podczas wpisywania
+      // w pole daty/godziny
+      if (event.target.tagName === "INPUT") {
         return;
       }
 
@@ -323,7 +333,7 @@
     });
 
 
-    // Reset
+    // Reset Counter
     resetButton.addEventListener("click", function() {
 
       counter = 0;
@@ -333,7 +343,7 @@
     });
 
 
-    // Zmiana godziny lub daty resetuje Counter
+    // Zmiana daty resetuje Counter
     startDate.addEventListener("change", function() {
 
       counter = 0;
@@ -343,6 +353,7 @@
     });
 
 
+    // Zmiana godziny resetuje Counter
     startTime.addEventListener("change", function() {
 
       counter = 0;
@@ -352,12 +363,15 @@
     });
 
 
-    // Ustawienie aktualnej daty/godziny przy uruchomieniu
-    setCurrentDateTime();
+    // Ustawienie dzisiejszej daty
+    // i godziny 18:30
+    setDefaultDateTime();
+
 
     // Aktualizacja co 250 ms
     setInterval(update, 250);
 
+    // Pierwsze obliczenie
     update();
 
   </script>
